@@ -1,0 +1,31 @@
+{
+  "name": "npm-add-dependencies",
+  "version": "0.1.0",
+  "description": "Add dependencies into the package.json file without installing them",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arfeo/npm-add-dependencies.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arfeo/npm-add-dependencies/issues"
+  },
+  "homepage": "https://github.com/arfeo/npm-add-dependencies#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dependencies",
+    "package",
+    "package.json",
+    "add"
+  ],
+  "author": "Arfeo.net",
+  "license": "MIT",
+  "preferGlobal": true,
+  "bin": {
+    "npm-add-dependencies": "index.js"
+  },
+  "dependencies": {
+    "npm-run": "^5.0.1"
+  }
+}
