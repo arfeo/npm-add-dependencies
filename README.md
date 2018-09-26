@@ -1,6 +1,6 @@
 # npm-add-dependencies
 
-This script adds dependencies to the package.json file skipping the installation process.
+This script adds dependencies (latest versions) to the package.json file skipping the installation process.
 
 ### Installation
 
