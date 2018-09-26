@@ -9,8 +9,7 @@ class NpmAddDependencies {
     this.dependencies = [];
     this.target = null;
 
-    console.log('This script adds dependencies into the package.json file');
-    console.log('skipping the installation process\n');
+    console.log('This script adds dependencies (latest versions) into the package.json file without installing them\n');
 
     process.argv.forEach((val, index) => {
       if (val && index !== 0 && index !== 1) {
@@ -43,7 +42,7 @@ class NpmAddDependencies {
       process.exit(1);
     }
 
-    console.log('Adding dependencies to', this.getTargetName(), '...');
+    console.log(`Adding dependencies to '${this.getTargetName()}'...`);
 
     return Promise.all(this.dependencies.map((dep) => {
       return this.runNpmShow(dep);
@@ -90,6 +89,12 @@ class NpmAddDependencies {
         console.error('Could not parse package.json. Stop.');
         process.exit(1);
       }
+
+      this.result = Object.keys(this.result).sort().reduce((res, key) => {
+        res[key] = this.result[key];
+
+        return res;
+      }, {});
 
       json[this.getTargetName()] = this.result;
 
