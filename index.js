@@ -58,7 +58,7 @@ class NpmAddDependencies {
           if (undefined !== parsed[1]) {
             this.result[dep] = `^${parsed[1]}`;
 
-            console.error(`Processed: ${dep}, latest version: ${parsed[1]}`);
+            console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
           }
         } else {
           console.error(`Could not fetch version info for: ${dep}. Skip.`);
