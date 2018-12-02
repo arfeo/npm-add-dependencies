@@ -96,7 +96,7 @@ class NpmAddDependencies {
         return res;
       }, {});
 
-      json[this.getTargetName()] = this.result;
+      json[this.getTargetName()] = Object.assign(json[this.getTargetName()]||{}, this.result);
 
       await this.writeToFile('package.json', JSON.stringify(json, null, 2));
 
