@@ -55,7 +55,9 @@ class NpmAddDependencies {
         if (!err) {
           const parsed = stdout.match(/latest: '(.*?)'/i);
 
-          if (undefined !== parsed[1]) {
+          if (!parsed || undefined === parsed[1]) {
+            console.error(`Could not obtain the latest version for: ${dep}. Skip.`);
+          } else {
             this.result[dep] = `^${parsed[1]}`;
 
             console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
