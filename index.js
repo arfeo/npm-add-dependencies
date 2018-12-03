@@ -90,6 +90,8 @@ class NpmAddDependencies {
         process.exit(1);
       }
 
+      this.result = Object.assign(json[this.getTargetName()] || {}, this.result);
+
       this.result = Object.keys(this.result).sort().reduce((res, key) => {
         res[key] = this.result[key];
 
