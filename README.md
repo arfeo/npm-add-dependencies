@@ -23,3 +23,6 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 * `--optional` for `optionalDependencies`
 
 If no `target` argument passed, dependencies are written to `dependencies`.
+
+
+Use `--no-overwrite` to prevent already existing packages in `package.json` from being overwritten.    
