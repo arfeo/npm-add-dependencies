@@ -13,7 +13,7 @@ $ npm install npm-add-dependencies -g
 Go to a directory with the target `package.json` and run
 
 ```
-$ npm-add-dependencies <dependencies> [target]
+$ npm-add-dependencies <dependencies> [target] [--no-overwrite]
 ```
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
@@ -24,5 +24,4 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 
 If no `target` argument passed, dependencies are written to `dependencies`.
 
-
-Use `--no-overwrite` to prevent already existing packages in `package.json` from being overwritten.    
+Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
