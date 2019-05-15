@@ -8,6 +8,7 @@ class NpmAddDependencies {
     this.result = {};
     this.dependencies = [];
     this.target = null;
+    this.overwrite = true;
 
     console.log('This script adds dependencies (latest versions) into the package.json file without installing them\n');
 
@@ -19,6 +20,10 @@ class NpmAddDependencies {
           case '--bundled':
           case '--optional': {
             this.target = val.substring(2);
+            break;
+          }
+          case '--no-overwrite': {
+            this.overwrite = false;
             break;
           }
           default: {
@@ -92,7 +97,11 @@ class NpmAddDependencies {
         process.exit(1);
       }
 
-      this.result = Object.assign(json[this.getTargetName()] || {}, this.result);
+      if (this.overwrite) {
+        this.result = Object.assign(json[this.getTargetName()] || {}, this.result);
+      } else {
+        this.result = Object.assign(this.result, json[this.getTargetName()] || {});
+      }
 
       this.result = Object.keys(this.result).sort().reduce((res, key) => {
         res[key] = this.result[key];
