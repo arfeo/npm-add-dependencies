@@ -56,16 +56,31 @@ class NpmAddDependencies {
 
   runNpmShow(dep) {
     return new Promise((resolve) => {
-      npmRun.exec(`npm show ${dep} dist-tags`, (err, stdout) => {
+      npmRun.exec(`npm show ${dep} dist dist-tags`, (err, stdout) => {
         if (!err) {
           const parsed = stdout.match(/latest: '(.*?)'/i);
 
           if (!parsed || undefined === parsed[1]) {
-            console.error(`Could not obtain the latest version for: ${dep}. Skip.`);
+            if (!dep.includes('@')) {
+              console.error(`Could not obtain the latest version for: ${dep}. Skip.`);
+            } else {
+              const [depName, depVersion] = dep.split('@');
+              console.error(`Could not obtain the specified version for: ${depName}(${depVersion}). Skip.`);
+            }
           } else {
-            this.result[dep] = `^${parsed[1]}`;
-
-            console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
+            if (!dep.includes('@')) {
+              this.result[dep] = `^${parsed[1]}`;
+              console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
+            } else {
+              const [depName, depVersion] = dep.split('@');
+              const parsed = stdout.match(/tarball: '(.*?)'/g);
+              if (!parsed) {
+                console.error(`Could not obtain the specified version for: ${dep}. Skip.`);
+              } else {
+                console.log(`Processed: ${depName}, specified version: ${depVersion}`);
+                this.result[depName] = `${depVersion}`;
+              }
+            }
           }
         } else {
           console.error(`Could not fetch version info for: ${dep}. Skip.`);
