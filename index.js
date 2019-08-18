@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const npmRun = require('npm-run');
+const semver = require('semver');
 
 class NpmAddDependencies {
   constructor() {
@@ -55,29 +56,76 @@ class NpmAddDependencies {
   };
 
   runNpmShow(dep) {
-    const [depName, depVersion] = dep.split('@');
+
+    if (!dep.includes('@')) {
+      return this.runNpmShowDistTags(dep);
+    } else {
+      return this.runNpmShowVersions(dep);
+    }
+  }
+
+  runNpmShowDistTags(dep) {
     return new Promise((resolve) => {
       npmRun.exec(`npm show ${dep} dist-tags`, (err, stdout) => {
         if (!err) {
           const parsed = stdout.match(/latest: '(.*?)'/i);
 
           if (!parsed || undefined === parsed[1]) {
-            if (undefined === depVersion) {
-              console.error(`Could not obtain the latest version for: ${dep}. Skip.`);
-            } else {
-              console.error(`Could not obtain the specified version for: ${depName}(${depVersion}). Skip.`);
-            }
+            console.error(`Could not obtain the latest version for: ${dep}. Skip.`);
           } else {
-            if (undefined === depVersion) {
-              this.result[dep] = `^${parsed[1]}`;
-              console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
-            } else {
-              this.result[depName] = `${depVersion}`;
-              console.log(`Processed: ${depName}, specified version: ${depVersion}`);
-            }
+            this.result[dep] = `^${parsed[1]}`;
+
+            console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
           }
         } else {
           console.error(`Could not fetch version info for: ${dep}. Skip.`);
+        }
+
+        resolve();
+      });
+    });
+  }
+
+  runNpmShowVersions(dep) {
+    const [depName, depVersion] = dep.split('@');
+    const depRange = semver.validRange(depVersion);
+
+    const specifiedVersions = depRange.replace(/[~^<>=]+/g, '').split(' ');
+    let operators = depRange.match(/[~^<>=]+/g);
+    if (!operators) {
+      operators = ['==='];
+    }
+
+    return new Promise((resolve) => {
+      npmRun.exec(`npm show ${depName} versions`, (err, stdout) => {
+        if (!err) {
+          const versions = JSON.parse(stdout.replace(/'/g, '"'));
+          if (operators.length === 1) {
+            for (let i=0; i<versions.length; i++) {
+              if (semver.cmp(versions[i], operators[0], specifiedVersions[0])) {
+                this.result[depName] = `${depVersion}`;
+                break;
+              }
+            }
+          } else {
+            for (let i=0; i<versions.length; i++) {
+              if (
+                semver.cmp(versions[i], operators[0], specifiedVersions[0]) &&
+                semver.cmp(versions[i], operators[1], specifiedVersions[1])
+              ) {
+                this.result[depName] = `${depVersion}`;
+                break;
+              }
+            }
+          }
+
+          if (undefined === this.result[depName]) {
+            console.error(`Could not obtain the specified version for: ${depName}. Skip.`);
+          } else {
+            console.log(`Processed: ${depName}, specified version: ${depVersion}`);
+          }
+        } else {
+          console.error(`Could not fetch version info for: ${depName}. Skip.`);
         }
 
         resolve();

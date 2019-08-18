@@ -26,6 +26,7 @@
     "npm-add-dependencies": "index.js"
   },
   "dependencies": {
-    "npm-run": "^5.0.1"
+    "npm-run": "^5.0.1",
+    "semver": "^6.3.0"
   }
 }
