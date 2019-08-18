@@ -56,7 +56,7 @@ class NpmAddDependencies {
 
   runNpmShow(dep) {
     return new Promise((resolve) => {
-      npmRun.exec(`npm show ${dep} dist dist-tags`, (err, stdout) => {
+      npmRun.exec(`npm show ${dep} dist-tags`, (err, stdout) => {
         if (!err) {
           const parsed = stdout.match(/latest: '(.*?)'/i);
 
@@ -73,13 +73,8 @@ class NpmAddDependencies {
               console.log(`Processed: ${dep}, latest version: ${parsed[1]}`);
             } else {
               const [depName, depVersion] = dep.split('@');
-              const parsed = stdout.match(/tarball: '(.*?)'/g);
-              if (!parsed) {
-                console.error(`Could not obtain the specified version for: ${dep}. Skip.`);
-              } else {
-                console.log(`Processed: ${depName}, specified version: ${depVersion}`);
-                this.result[depName] = `${depVersion}`;
-              }
+              this.result[depName] = `${depVersion}`;
+              console.log(`Processed: ${depName}, specified version: ${depVersion}`);
             }
           }
         } else {
