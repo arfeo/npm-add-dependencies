@@ -56,7 +56,8 @@ class NpmAddDependencies {
   };
 
   runNpmShow(dep) {
-    const [depName, depVersion] = dep.split('@');
+    const depSplit = dep.split('@');
+    const [depName, depVersion] = dep.charAt(0) !== '@' ? depSplit : [`@${depSplit[1]}`, depSplit[2]];
 
     if (depVersion) {
       const depRange = semver.validRange(depVersion) || '';
