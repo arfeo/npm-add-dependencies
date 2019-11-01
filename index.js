@@ -8,7 +8,7 @@ class NpmAddDependencies {
   constructor() {
     this.result = {};
     this.dependencies = [];
-    this.target = null;
+    this.target = 'dependencies';
     this.overwrite = true;
   }
 
@@ -28,7 +28,7 @@ class NpmAddDependencies {
           case '--peer':
           case '--bundled':
           case '--optional': {
-            this.target = val.substring(2);
+            this.target = `${val.substring(2)}Dependencies`;
             break;
           }
           case '--no-overwrite': {
@@ -52,7 +52,7 @@ class NpmAddDependencies {
       process.exit(1);
     }
 
-    console.log(`Adding packages to '${this.getTargetName()}'...`);
+    console.log(`Adding packages to '${this.target}'...`);
 
     return Promise.all(this.dependencies.map((dep) => {
       return this.runNpmShow(dep);
@@ -124,16 +124,6 @@ class NpmAddDependencies {
     });
   }
 
-  getTargetName() {
-    switch (this.target) {
-      case 'dev': return 'devDependencies';
-      case 'peer': return 'peerDependencies';
-      case 'bundled': return 'bundledDependencies';
-      case 'optional': return 'optionalDependencies';
-      default: return 'dependencies';
-    }
-  }
-
   saveToPackage() {
     this.readFromFile('package.json').then(async (data) => {
       let json;
@@ -146,8 +136,8 @@ class NpmAddDependencies {
       }
 
       this.result = this.overwrite
-        ? Object.assign(json[this.getTargetName()] || {}, this.result)
-        : Object.assign(this.result, json[this.getTargetName()] || {});
+        ? Object.assign(json[this.target] || {}, this.result)
+        : Object.assign(this.result, json[this.target] || {});
 
       this.result = Object.keys(this.result).sort().reduce((res, key) => {
         res[key] = this.result[key];
@@ -155,7 +145,7 @@ class NpmAddDependencies {
         return res;
       }, {});
 
-      json[this.getTargetName()] = this.result;
+      json[this.target] = this.result;
 
       await this.writeToFile('package.json', JSON.stringify(json, null, 2));
 
