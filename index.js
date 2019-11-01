@@ -181,6 +181,5 @@ class NpmAddDependencies {
 }
 
 console.log('\x1b[33m%s\x1b[0m', 'This script adds dependencies (latest or specified versions) into the package.json file without installing them');
-console.log('\n');
 
 new NpmAddDependencies().startJob();
