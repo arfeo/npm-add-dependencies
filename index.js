@@ -12,14 +12,6 @@ class NpmAddDependencies {
     this.overwrite = true;
   }
 
-  startJob() {
-    this.processArgs();
-
-    this.addDependencies()
-      .then(this.saveToPackage.bind(this))
-      .catch(console.error);
-  }
-
   processArgs() {
     process.argv.forEach((val, index) => {
       if (val && index !== 0 && index !== 1) {
@@ -182,4 +174,10 @@ class NpmAddDependencies {
 
 console.log('\x1b[33m%s\x1b[0m', 'This script adds dependencies (latest or specified versions) into the package.json file without installing them');
 
-new NpmAddDependencies().startJob();
+const app = new NpmAddDependencies();
+
+app.processArgs();
+
+app.addDependencies()
+  .then(app.saveToPackage.bind(app))
+  .catch(console.error);
