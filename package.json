@@ -1,7 +1,7 @@
 {
   "name": "npm-add-dependencies",
-  "version": "0.2.1",
-  "description": "Add dependencies (latest versions) to the package.json file without installing them",
+  "version": "0.2.2",
+  "description": "Add dependencies (latest or specified versions) into the package.json file without installing them",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arfeo/npm-add-dependencies.git"

@@ -10,9 +10,17 @@ class NpmAddDependencies {
     this.dependencies = [];
     this.target = null;
     this.overwrite = true;
+  }
 
-    console.log('This script adds dependencies (latest or specified versions) into the package.json file without installing them\n');
+  startJob() {
+    this.processArgs();
 
+    this.addDependencies()
+      .then(this.saveToPackage.bind(this))
+      .catch(console.error);
+  }
+
+  processArgs() {
     process.argv.forEach((val, index) => {
       if (val && index !== 0 && index !== 1) {
         switch (val) {
@@ -36,15 +44,11 @@ class NpmAddDependencies {
         }
       }
     });
-
-    this.addDependencies()
-      .then(this.saveToPackage.bind(this))
-      .catch(console.error);
   }
 
   addDependencies() {
     if (this.dependencies.length === 0) {
-      console.error('No dependencies passed. Stop.');
+      console.error('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
       process.exit(1);
     }
 
@@ -86,12 +90,12 @@ class NpmAddDependencies {
             } catch (e) {}
 
             if (undefined === this.result[depName]) {
-              console.error(`Could not obtain the specified version for: ${depName}. Skip.`);
+              console.error('\x1b[31m%s\x1b[0m', `Could not obtain the specified version for: ${depName}. Skip.`);
             } else {
               console.log(`Processed: ${depName}, specified version: ${depVersion}`);
             }
           } else {
-            console.error(`Could not fetch version info for: ${depName}. Skip.`);
+            console.error('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
           }
 
           resolve();
@@ -105,14 +109,14 @@ class NpmAddDependencies {
           const parsed = stdout.match(/latest: '(.*?)'/i);
 
           if (!parsed || undefined === parsed[1]) {
-            console.error(`Could not obtain the latest version for: ${depName}. Skip.`);
+            console.error('\x1b[31m%s\x1b[0m', `Could not obtain the latest version for: ${depName}. Skip.`);
           } else {
             this.result[depName] = `^${parsed[1]}`;
 
             console.log(`Processed: ${depName}, latest version: ${parsed[1]}`);
           }
         } else {
-          console.error(`Could not fetch version info for: ${depName}. Skip.`);
+          console.error('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
         }
 
         resolve();
@@ -137,7 +141,7 @@ class NpmAddDependencies {
       try {
         json = JSON.parse(data);
       } catch (e) {
-        console.error('Could not parse package.json. Stop.');
+        console.error('\x1b[31m%s\x1b[0m', 'Could not parse package.json. Stop.');
         process.exit(1);
       }
 
@@ -155,7 +159,7 @@ class NpmAddDependencies {
 
       await this.writeToFile('package.json', JSON.stringify(json, null, 2));
 
-      console.log('Done.');
+      console.log('\x1b[32m%s\x1b[0m', 'Done.');
     });
   }
 
@@ -163,7 +167,7 @@ class NpmAddDependencies {
     return new Promise((resolve) => {
       fs.readFile(filePath, (err, data) => {
         if (err) {
-          console.error('Could not read from package.json. Stop.');
+          console.error('\x1b[31m%s\x1b[0m', 'Could not read from package.json. Stop.');
           process.exit(1);
         }
 
@@ -176,7 +180,7 @@ class NpmAddDependencies {
     return new Promise((resolve) => {
       fs.writeFile(filePath, fileContent, (err) => {
         if (err) {
-          console.error('Could not write to package.json. Stop.');
+          console.error('\x1b[31m%s\x1b[0m', 'Could not write to package.json. Stop.');
           process.exit(1);
         }
 
@@ -186,4 +190,7 @@ class NpmAddDependencies {
   };
 }
 
-new NpmAddDependencies();
+console.log('\x1b[33m%s\x1b[0m', 'This script adds dependencies (latest or specified versions) into the package.json file without installing them');
+console.log('\n');
+
+new NpmAddDependencies().startJob();
