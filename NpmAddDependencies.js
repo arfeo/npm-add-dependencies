@@ -84,7 +84,7 @@ class NpmAddDependencies {
             console.error('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
           }
 
-          resolve();
+          return resolve();
         });
       });
     }
@@ -105,19 +105,21 @@ class NpmAddDependencies {
           console.error('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
         }
 
-        resolve();
+        return resolve();
       });
     });
   }
 
   saveToPackage() {
-    Files.readFromFile('package.json').then(async (data) => {
+    const packageFilePath = 'package.json';
+
+    Files.readFromFile(packageFilePath).then(async (data) => {
       let json;
 
       try {
         json = JSON.parse(data);
       } catch (e) {
-        console.error('\x1b[31m%s\x1b[0m', 'Could not parse package.json. Stop.');
+        console.error('\x1b[31m%s\x1b[0m', `Could not parse ${packageFilePath}. Stop.`);
         process.exit(1);
       }
 
@@ -133,9 +135,15 @@ class NpmAddDependencies {
 
       json[this.target] = this.result;
 
-      await Files.writeToFile('package.json', JSON.stringify(json, null, 2));
-
-      console.log('\x1b[32m%s\x1b[0m', 'Done.');
+      Files.writeToFile(packageFilePath, JSON.stringify(json, null, 2)).then(() => {
+        console.log('\x1b[32m%s\x1b[0m', 'Done.');
+      }).catch(() => {
+        console.error('\x1b[31m%s\x1b[0m', `Could not write to ${packageFilePath}. Stop.`);
+        process.exit(1);
+      });
+    }).catch(() => {
+      console.error('\x1b[31m%s\x1b[0m', `Could not read from ${packageFilePath}. Stop.`);
+      process.exit(1);
     });
   }
 }
