@@ -29,5 +29,5 @@ Use `--no-overwrite` flag to prevent already existing packages in `package.json`
 Example:
 
 ```sh
-$ npm-add-dependencies moment@2.0.0 react@16.8 redux eslint git+https://github.com/arfeo/npm-add-dependencies.git#master --dev
+$ npm-add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
 ```
