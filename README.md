@@ -4,7 +4,7 @@ This script adds dependencies (latest or specified versions) to the `package.jso
 
 ### Installation
 
-If not using with `npx`, you can install with:
+If not using with `npx` (see below), you can install with:
 
 ```sh
 $ npm install npm-add-dependencies [-g]
