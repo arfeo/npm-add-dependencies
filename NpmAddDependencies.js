@@ -16,7 +16,6 @@ class NpmAddDependencies {
         switch (val) {
           case '--dev':
           case '--peer':
-          case '--bundled':
           case '--optional': {
             this.target = `${val.substring(2)}Dependencies`;
             break;
