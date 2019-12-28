@@ -15,10 +15,20 @@ class NpmAddDependencies {
       if (val && index !== 0 && index !== 1) {
         switch (val) {
           case '--dev':
+          case '--save-dev':
+          case '-D': {
+            this.target = 'devDependencies';
+            break;
+          }
           case '--peer':
-          case '--bundled':
-          case '--optional': {
-            this.target = `${val.substring(2)}Dependencies`;
+          case '--save-peer': {
+            this.target = 'peerDependencies';
+            break;
+          }
+          case '--optional':
+          case '--save-optional':
+          case '-O': {
+            this.target = 'optionalDependencies';
             break;
           }
           case '--no-overwrite': {
@@ -26,7 +36,7 @@ class NpmAddDependencies {
             break;
           }
           default: {
-            if (!/--/.test(val)) {
+            if (!/^-/.test(val)) {
               this.dependencies.push(val);
             }
             break;
