@@ -21,7 +21,8 @@ class NpmAddDependencies {
             break;
           }
           case '--peer':
-          case '--save-peer': {
+          case '--save-peer':
+          case '-P': {
             this.target = 'peerDependencies';
             break;
           }
