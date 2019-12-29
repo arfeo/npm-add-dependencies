@@ -1,6 +1,6 @@
 {
-  "name": "npm-add-dependencies",
-  "version": "0.3.0",
+  "name": "add-dep",
+  "version": "1.0.0",
   "description": "Add dependencies (latest or specified versions) to the package.json file without installing them",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "preferGlobal": true,
   "bin": {
-    "npm-add-dependencies": "index.js"
+    "add-dep": "index.js"
   },
   "dependencies": {
     "npm-run": "^5.0.1",
