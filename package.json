@@ -1,6 +1,6 @@
 {
   "name": "npm-add-dependencies",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Add dependencies (latest or specified versions) to the package.json file without installing them",
   "repository": {
     "type": "git",
