@@ -1,8 +1,10 @@
 # npm-add-dependencies
 
-This script adds dependencies (latest or specified versions) to the package.json file skipping the installation process.
+This script adds dependencies (latest or specified versions) to the `package.json` file skipping the installation process.
 
 ### Installation
+
+If not using with `npx` (see below), you can install with:
 
 ```sh
 $ npm install npm-add-dependencies [-g]
@@ -10,10 +12,16 @@ $ npm install npm-add-dependencies [-g]
 
 ### Usage
 
-Go to a directory with the target `package.json` and run
+Go to a directory with the target `package.json` and run:
 
 ```sh
 $ npm-add-dependencies <dependencies> [target] [--no-overwrite]
+```
+
+or with `npx`:
+
+```sh
+$ npx npm-add-dependencies <dependencies> [target] [--no-overwrite]
 ```
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
@@ -29,4 +37,10 @@ Example:
 
 ```sh
 $ npm-add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
+```
+
+or with `npx`:
+
+```sh
+$ npx npm-add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
 ```
