@@ -1,6 +1,11 @@
 # npm-add-dependencies
 
-This script adds dependencies (latest or specified versions) to the `package.json` file skipping the installation process.
+This script adds dependencies (latest or specified versions) to the package.json file skipping the installation process.
+
+Installing a dependency can have dangerous side effects, [according to `npm`](https://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability):
+> it is possible for a maliciously-written npm package, when installed, to execute a script.
+
+It's safer and faster to add dependencies to `package.json` with this tool, and then only actually install them within a Docker container, for example, with [`docked-node`](https://github.com/AndersDJohnson/docked-node).
 
 ### Installation
 
