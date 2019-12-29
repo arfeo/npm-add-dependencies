@@ -18,7 +18,7 @@ $ npm-add-dependencies <dependencies> [target] [--no-overwrite]
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
 * `--dev`/`--save-dev`/`-D` for `devDependencies`
-* `--peer`/`--save-peer` for `peerDependencies`
+* `--peer`/`--save-peer`/`-P` for `peerDependencies`
 * `--optional`/`--save-optional`/`-O` for `optionalDependencies`
 
 If no `target` argument passed, dependencies are written to `dependencies`.
