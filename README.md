@@ -31,7 +31,7 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 
 If no `target` argument passed, dependencies are written to `dependencies`.
 
-If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e `/some/dir/from/root/package.json` or `./../some/relative/path/package.json`
+If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e `/some/dir/from/root/package.json` or `../some/relative/path/package.json`
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
