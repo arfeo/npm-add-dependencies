@@ -12,16 +12,16 @@ $ npm install add-dependencies [-g]
 
 ### Usage
 
-Go to a directory with the target `package.json` and run:
+Run:
 
 ```sh
-$ add-dependencies <dependencies> [target] [--no-overwrite]
+$ add-dependencies [packageFilePath] <dependencies> [target] [--no-overwrite]
 ```
 
 or with `npx`:
 
 ```sh
-$ npx add-dependencies <dependencies> [target] [--no-overwrite]
+$ npx add-dependencies [packageFilePath] <dependencies> [target] [--no-overwrite]
 ```
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
@@ -30,6 +30,8 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 * `--optional` / `--save-optional` / `-O` for `optionalDependencies`
 
 If no `target` argument passed, dependencies are written to `dependencies`.
+
+If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e `/some/dir/from/root/package.json` or `../some/relative/path/package.json`
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
@@ -42,5 +44,5 @@ $ add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
 or with `npx`:
 
 ```sh
-$ npx add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
+$ npx add-dependencies /home/user/project/package.json moment@2.0.0 react@16.8 redux eslint --dev
 ```
