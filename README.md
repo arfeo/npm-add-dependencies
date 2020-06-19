@@ -31,7 +31,7 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 
 If no `target` argument passed, dependencies are written to `dependencies`.
 
-If no `package.json` argument passed, dependencies are written to `./package.json`.
+If no `package.json` argument passed, dependencies are written to `./package.json`, i.e \some\dir\from\root\package.json
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
