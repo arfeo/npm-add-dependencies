@@ -10,4 +10,4 @@ app.addDependencies().then(app.saveToPackage.bind(app)).catch((error) => {
   process.exit(1);
 });
 
-export default AddDependencies;
+module.exports = AddDependencies;
