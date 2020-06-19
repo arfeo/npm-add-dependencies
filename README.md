@@ -56,7 +56,7 @@ const dependencies = [
     'package2',
     'package3',
 ];
-const target = 'dependencies';
+const target = npmAdd.CONSTANTS.DEPENDENCIES;
 const overwrite = false;
 const packageFilePath = 'package.json';
 new npmAdd(dependencies, target, overwrite, packageFilePath)
