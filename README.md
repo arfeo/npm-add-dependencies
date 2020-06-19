@@ -12,7 +12,7 @@ $ npm install add-dependencies [-g]
 
 ### Usage
 
-Run:
+Run (for `nodejs` see Example):
 
 ```sh
 $ add-dependencies [package_file] <dependencies> [target] [--no-overwrite]
