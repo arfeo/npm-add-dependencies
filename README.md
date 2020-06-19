@@ -33,6 +33,8 @@ If no `target` argument passed, dependencies are written to `dependencies`.
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
+Use `--package-dir` / `--dir` flag to specify a `package.json` not directly at `./`.
+
 Example:
 
 ```sh
