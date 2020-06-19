@@ -21,7 +21,7 @@ $ add-dependencies [package.json] <dependencies> [target] [--no-overwrite]
 or with `npx`:
 
 ```sh
-$ npx add-dependencies [./package.json] <dependencies> [target] [--no-overwrite]
+$ npx add-dependencies [package.json] <dependencies> [target] [--no-overwrite]
 ```
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
