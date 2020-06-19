@@ -31,7 +31,7 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 
 If no `target` argument passed, dependencies are written to `dependencies`.
 
-If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e /some/dir/from/root/package.json or ./../some/relative/path/package.json
+If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e `/some/dir/from/root/package.json` or `./../some/relative/path/package.json`
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
@@ -44,5 +44,5 @@ $ add-dependencies moment@2.0.0 react@16.8 redux eslint --dev
 or with `npx`:
 
 ```sh
-$ npx add-dependencies ./package.json moment@2.0.0 react@16.8 redux eslint --dev
+$ npx add-dependencies /home/user/project/package.json moment@2.0.0 react@16.8 redux eslint --dev
 ```
