@@ -1,6 +1,6 @@
 {
   "name": "add-dependencies",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Add dependencies (latest or specified versions) to the package.json file without installing them",
   "repository": {
     "type": "git",
