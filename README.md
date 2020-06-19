@@ -12,16 +12,16 @@ $ npm install add-dependencies [-g]
 
 ### Usage
 
-Go to a directory with the target `package.json` and run:
+Run:
 
 ```sh
-$ add-dependencies [package.json] <dependencies> [target] [--no-overwrite]
+$ add-dependencies [packageFilePath] <dependencies> [target] [--no-overwrite]
 ```
 
 or with `npx`:
 
 ```sh
-$ npx add-dependencies [package.json] <dependencies> [target] [--no-overwrite]
+$ npx add-dependencies [packageFilePath] <dependencies> [target] [--no-overwrite]
 ```
 
 where `dependencies` is the list of dependencies divided by space, and `target` is one of the following:
@@ -31,7 +31,7 @@ where `dependencies` is the list of dependencies divided by space, and `target` 
 
 If no `target` argument passed, dependencies are written to `dependencies`.
 
-If no `package.json` argument passed, dependencies are written to `./package.json`, i.e \some\dir\from\root\package.json
+If no `packageFilePath` argument passed, dependencies are written to the default of `./package.json`, i.e /some/dir/from/root/package.json or ./../some/relative/path/package.json
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
