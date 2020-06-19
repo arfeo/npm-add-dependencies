@@ -46,3 +46,20 @@ or with `npx`:
 ```sh
 $ npx add-dependencies /home/user/project/package.json moment@2.0.0 react@16.8 redux eslint --dev
 ```
+
+or via nodejs
+
+```js
+const npmAdd = require('add-dependencies/lib/AddDependencies');
+const dependencies = [
+    'package1',
+    'package2',
+    'package3',
+];
+const target = 'dependencies';
+const overwrite = false;
+const packageFilePath = 'package.json';
+new npmAdd(dependencies, target, overwrite, packageFilePath)
+    .run()
+    .then(() => console.log('completed'));
+```
