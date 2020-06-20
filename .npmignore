@@ -6,4 +6,4 @@ package-lock.json
 __tests__
 .editorconfig
 .eslintrc.js
-jest.config.js
+jest.*
