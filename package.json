@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/arfeo/npm-add-dependencies#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
     "lint": "eslint --fix --ext js lib/**.js index.js"
   },
   "keywords": [
@@ -31,6 +31,8 @@
     "semver": "^6.3.0"
   },
   "devDependencies": {
+    "jest": "^26.0.1",
+    "jest-config": "^26.0.1",
     "eslint": "^7.3.0",
     "babel-eslint": "^10.1.0",
     "eslint-config-prettier": "^3.3.0",
