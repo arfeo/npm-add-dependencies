@@ -24,7 +24,7 @@
   "license": "MIT",
   "preferGlobal": true,
   "bin": {
-    "add-dependencies": "cliIndex.js"
+    "add-dependencies": "index.js"
   },
   "dependencies": {
     "npm-run": "^5.0.1",
