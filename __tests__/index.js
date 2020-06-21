@@ -25,134 +25,169 @@ const generateDefaultPackageJson = () => {
   });
 };
 
-test('defaults', async (done) => {
+const writeJsonAndVerify = async (done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides) => {
+  expect(classForTesting).toMatchObject(testExpectObject);
+  generateDefaultPackageJson().then((defaultPackageJson) =>
+    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
+      classForTesting.run().then(() =>
+        Files.readFromFile(packageJson).then((jsonResult) => {
+          const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+          try {
+            expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        })
+      )
+    )
+  );
+};
+
+test('run() fail to make sure tests themselves work', async (done) => {
+  const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const classForTesting = new ClassForTesting(['jquery'], ClassForTesting.CONSTANTS.DEPENDENCIES, true, packageJson);
+  try {
+    //  expect(classForTesting).toMatchObject(testExpectObject);
+  } catch (e) {
+    expect(e).toBeTruthy();
+  }
+  generateDefaultPackageJson().then((defaultPackageJson) =>
+    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
+      classForTesting.run().then(() =>
+        Files.readFromFile(packageJson).then(() => {
+          try {
+            // expect(JSON.parse(expectedJson)).toEqual(defaultPackageJson);
+            done();
+          } catch (e) {
+            expect(e).toBeTruthy();
+            done(e);
+          }
+        })
+      )
+    )
+  );
+});
+
+test('run() with defaults', async (done) => {
   const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
   const testExpectObject = {
     ...defaultExpect,
     packageFilePath: packageJson,
   };
   const classForTesting = new ClassForTesting([], ClassForTesting.CONSTANTS.DEPENDENCIES, true, packageJson);
-  expect(classForTesting).toMatchObject(testExpectObject);
-  generateDefaultPackageJson().then((defaultPackageJson) =>
-    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
-      classForTesting.run().then(() =>
-        Files.readFromFile(packageJson).then((expectedJson) => {
-          try {
-            expect(JSON.parse(expectedJson)).toEqual(defaultPackageJson);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        })
-      )
-    )
-  );
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject).then();
 });
 
-test('with dependencies with override', async (done) => {
+test('run() with dependencies with override', async (done) => {
   const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const dependencies = ['jest@26.0.1'];
   const testExpectObject = {
     ...defaultExpect,
     packageFilePath: packageJson,
-    dependencies: ['jest@26.0.1'],
+    dependencies: dependencies,
   };
-  const classForTesting = new ClassForTesting(
-    ['jest@26.0.1'],
-    ClassForTesting.CONSTANTS.DEPENDENCIES,
-    true,
-    packageJson
-  );
-  expect(classForTesting).toMatchObject(testExpectObject);
-  generateDefaultPackageJson().then((defaultPackageJson) =>
-    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
-      classForTesting.run().then(() =>
-        Files.readFromFile(packageJson).then((expectedJson) => {
-          defaultPackageJson.dependencies.jest = '26.0.1';
-          try {
-            expect(JSON.parse(expectedJson)).toEqual(defaultPackageJson);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        })
-      )
-    )
-  );
+  const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.DEPENDENCIES, true, packageJson);
+  const expectedJsonOverrides = {
+    dependencies: {
+      jest: '26.0.1',
+    },
+  };
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
 });
 
-test('no overwrite', async (done) => {
+test('run() with no overwrite', async (done) => {
   const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
-  const classForTesting = new ClassForTesting([], ClassForTesting.CONSTANTS.DEPENDENCIES, false, packageJson);
+  const dependencies = ['jest@26.0.1'];
+
+  const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.DEPENDENCIES, false, packageJson);
   const testExpectObject = {
     ...defaultExpect,
+    dependencies: dependencies,
     packageFilePath: packageJson,
     overwrite: false,
   };
-  expect(classForTesting).toMatchObject(testExpectObject);
-  generateDefaultPackageJson().then((defaultPackageJson) => {
-    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
-      classForTesting.run().then(() =>
-        Files.readFromFile(packageJson).then((expectedJson) => {
-          try {
-            expect(JSON.parse(expectedJson)).toEqual(defaultPackageJson);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        })
-      )
-    );
-  });
+  const expectedJsonOverrides = {};
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
 });
-// // package path
-// test('package path', async () => {
-//   const classForTesting = new ClassForTesting(
-//     [],
-//     ClassForTesting.CONSTANTS.DEPENDENCIES,
-//     true,
-//     'a/deeper/folder/package.json'
-//   );
-//   const testExpectOverrides = {
-//     packageFilePath: 'a/deeper/folder/package.json',
-//   };
-//   expect(classForTesting).toMatchObject({ ...defaultExpect, ...testExpectOverrides });
-// });
-// // deps
-// test('deps', async () => {
-//   const dependencies = ['jquery'];
-//   const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.DEPENDENCIES);
-//   const testExpectOverrides = {
-//     dependencies,
-//   };
-//   expect(classForTesting).toMatchObject({ ...defaultExpect, ...testExpectOverrides });
-// });
-// // dev deps
-// test('dev deps', async () => {
-//   const dependencies = ['jquery'];
-//   const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.DEV_DEPENDENCIES);
-//   const testExpectOverrides = {
-//     dependencies,
-//     target: 'devDependencies',
-//   };
-//   expect(classForTesting).toMatchObject({ ...defaultExpect, ...testExpectOverrides });
-// });
-// // optional deps
-// test('optional deps', async () => {
-//   const dependencies = ['jquery'];
-//   const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES);
-//   const testExpectOverrides = {
-//     dependencies,
-//     target: 'optionalDependencies',
-//   };
-//   expect(classForTesting).toMatchObject({ ...defaultExpect, ...testExpectOverrides });
-// });
-// // peer deps
-// test('peer deps', async () => {
-//   const dependencies = ['jquery'];
-//   const classForTesting = new ClassForTesting(dependencies, ClassForTesting.CONSTANTS.PEER_DEPENDENCIES);
-//   const testExpectOverrides = {
-//     dependencies,
-//     target: 'peerDependencies',
-//   };
-//   expect(classForTesting).toMatchObject({ ...defaultExpect, ...testExpectOverrides });
-// });
+
+test('run() with package path', async (done) => {
+  const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const classForTesting = new ClassForTesting([], ClassForTesting.CONSTANTS.DEPENDENCIES, true, packageJson);
+  const testExpectObject = {
+    ...defaultExpect,
+    packageFilePath: packageJson,
+  };
+  const expectedJsonOverrides = {};
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+});
+
+test('run() with dev dependencies overwrite with caret', async (done) => {
+  const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const dependencies = ['jest@^26.0.1'];
+  const classForTesting = new ClassForTesting(
+    dependencies,
+    ClassForTesting.CONSTANTS.DEV_DEPENDENCIES,
+    true,
+    packageJson
+  );
+  const testExpectObject = {
+    ...defaultExpect,
+    dependencies: dependencies,
+    packageFilePath: packageJson,
+    target: 'devDependencies',
+  };
+
+  const expectedJsonOverrides = {
+    devDependencies: {
+      jest: '^26.0.1',
+    },
+  };
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+});
+
+test('run() with optional dependencies overwrite lower', async (done) => {
+  const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const dependencies = ['jest@25.0.0'];
+  const classForTesting = new ClassForTesting(
+    dependencies,
+    ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES,
+    true,
+    packageJson
+  );
+  const testExpectObject = {
+    ...defaultExpect,
+    dependencies: dependencies,
+    packageFilePath: packageJson,
+    target: 'optionalDependencies',
+  };
+  const expectedJsonOverrides = {
+    optionalDependencies: {
+      jest: '25.0.0',
+    },
+  };
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+});
+
+test('run() with peer dependencies overwrite', async (done) => {
+  const packageJson = path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  const dependencies = ['jest@26.0.1'];
+  const classForTesting = new ClassForTesting(
+    dependencies,
+    ClassForTesting.CONSTANTS.PEER_DEPENDENCIES,
+    true,
+    packageJson
+  );
+  const testExpectObject = {
+    ...defaultExpect,
+    dependencies: dependencies,
+    packageFilePath: packageJson,
+    target: 'peerDependencies',
+  };
+  const expectedJsonOverrides = {
+    peerDependencies: {
+      jest: '26.0.1',
+    },
+  };
+  writeJsonAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+});

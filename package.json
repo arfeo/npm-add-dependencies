@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/arfeo/npm-add-dependencies#readme",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent",
     "lint": "eslint --fix --ext js lib/**.js index.js"
   },
   "keywords": [
