@@ -1,8 +1,8 @@
-const ClassForTesting = require('../index');
+const ClassForTesting = require('../../index');
 const { runAndVerifyWithFailures, runAndVerify, generateRandomFilename, defaultExpect } = require('../__mocks__/utils');
 
 // todo add a test for connection timeout this made me think i had fucked it allll up :D
-describe('nodeJS run()', async () => {
+describe('nodeJS run()', () => {
   test('fail to make sure tests themselves work', async (done) => {
     generateRandomFilename().then((packageJson) => {
       const testExpectObject = {
@@ -26,7 +26,8 @@ describe('nodeJS run()', async () => {
         true,
         packageJson
       );
-      runAndVerify(done, classForTesting, packageJson, testExpectObject).then();
+      const expectedJsonOverrides = {};
+      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
     });
   });
 

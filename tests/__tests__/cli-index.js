@@ -1,4 +1,5 @@
 const argv = require('../__mocks__/argv');
+const addDependenciesNonCli = require('../../index');
 const {
   cliRunAndVerifyWithFailures,
   cliRunAndVerify,
@@ -6,10 +7,10 @@ const {
   defaultExpect,
 } = require('../__mocks__/utils');
 
-describe('cli run()', async () => {
+describe('cli run()', () => {
   test('test argv mock', (done) => {
-    argv('--arg1 value1').then((input) => {
-      expect(input).toEqual(['--arg1', 'value1']);
+    argv(`../package.json ${addDependenciesNonCli.CONSTANTS.DEPENDENCIES} jest@26.0.1`).then((input) => {
+      expect(input).toEqual(['../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES, 'jest@26.0.1']);
       done();
     });
   });
@@ -20,13 +21,18 @@ describe('cli run()', async () => {
 
   // test('cli with defaults', async (done) => {
   //   generateRandomFilename().then((packageJson) => {
-  //     const testExpectObject = {
-  //       ...defaultExpect,
-  //       packageFilePath: packageJson,
+  //     const expectedJsonOverrides = {
+  //       dependencies: {
+  //         jest: '26.0.1',
+  //       },
   //     };
-  //     cliRunAndVerify(done, testExpectObject).then();
+  //     // todo the argv are just being lost?.... they exist until i call require
+  //     argv(`${packageJson} ${addDependenciesNonCli.CONSTANTS.DEV_DEPENDENCIES} jest@26.0.1`).then((input) => {
+  //       cliRunAndVerify(done, expectedJsonOverrides).then();
+  //     });
   //   });
   // });
+
   //
   // test('run() with dependencies with override', async (done) => {
   //   generateRandomFilename().then((packageJson) => {

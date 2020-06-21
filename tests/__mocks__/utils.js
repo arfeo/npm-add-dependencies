@@ -1,5 +1,5 @@
 const path = require('path');
-const Files = require('../lib/Files');
+const Files = require('../../lib/Files');
 const argv = require('./argv');
 const { TEST_JSON_DIR } = require('../jest.config');
 const md5 = require('blueimp-md5');
@@ -13,7 +13,7 @@ const defaultExpect = {
 };
 
 const generateDefaultPackageJson = () => {
-  return Files.readFromFile(path.resolve(__dirname, '../', 'package.json')).then((defaultPackageJsonString) => {
+  return Files.readFromFile(path.resolve(__dirname, '../..', 'package.json')).then((defaultPackageJsonString) => {
     const defaultPackageJson = JSON.parse(defaultPackageJsonString);
     defaultPackageJson.dependencies = { jest: '26.0.0' };
     defaultPackageJson.devDependencies = { jest: '26.0.0' };
@@ -24,25 +24,22 @@ const generateDefaultPackageJson = () => {
   });
 };
 
-const cliRunAndVerify = async (done, testExpectObject, expectedJsonOverrides) => {
+const cliRunAndVerify = async (done, expectedJsonOverrides) => {
   generateRandomFilename().then((packageJson) => {
-    const testExpectObject = {
-      ...defaultExpect,
-      packageFilePath: packageJson,
-    };
-    // require('../cli-index')
     generateDefaultPackageJson().then((defaultPackageJson) => {
-      Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
+      Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() => {
+        require('../../cli-index');
         Files.readFromFile(packageJson).then((jsonResult) => {
           const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+            expect(console.log.mock.calls[console.log.mock.calls.length - 1][1]).toEqual('Done.');
             done();
           } catch (e) {
             done(e);
           }
-        })
-      );
+        });
+      });
     });
   });
 };
@@ -56,6 +53,7 @@ const runAndVerify = async (done, classForTesting, packageJson, testExpectObject
           const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+            expect(console.log.mock.calls[console.log.mock.calls.length - 1][1]).toEqual('Done.');
             done();
           } catch (e) {
             done(e);
@@ -67,14 +65,16 @@ const runAndVerify = async (done, classForTesting, packageJson, testExpectObject
 };
 
 const cliRunAndVerifyWithFailures = async (done, inputsString) => {
-  jest.spyOn(process, 'exit').mockImplementation(() => {});
   generateRandomFilename().then((packageJson) => {
     argv(inputsString + ` ${packageJson}`).then(() => {
       generateDefaultPackageJson().then((defaultPackageJson) => {
         Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() => {
-          require('../cli-index');
+          require('../../cli-index');
           try {
             // add test to test log
+            expect(console.error.mock.calls[console.error.mock.calls.length - 1][1]).toEqual(
+              'No dependencies passed. Stop.'
+            );
             expect(process.exit).toHaveBeenCalledWith(1);
             done();
           } catch (e) {
