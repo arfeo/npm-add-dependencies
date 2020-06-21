@@ -1,1 +1,1 @@
-module.exports = (inputs) => (process.argv = inputs);
+module.exports = async (inputs = '') => (process.argv = inputs.split(' '));

@@ -12,11 +12,3 @@ app.run().catch((error) => {
   console.error('\x1b[31m%s\x1b[0m', error);
   process.exit(1);
 });
-
-// app
-//   .addDependencies()
-//   .then(app.saveToPackage.bind(app))
-//   .catch((error) => {
-//     console.error('\x1b[31m%s\x1b[0m', error);
-//     process.exit(1);
-//   });
