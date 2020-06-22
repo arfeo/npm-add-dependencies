@@ -104,11 +104,7 @@ const runAndVerifyWithFailures = async (done, classForTesting, packageJson, test
   );
 };
 
-const generateRandomFilename = async () =>
-  path.resolve(
-    TEST_JSON_DIR,
-    md5(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))
-  );
+const generateRandomFilename = async () => path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
 
 module.exports = {
   defaultExpect,
