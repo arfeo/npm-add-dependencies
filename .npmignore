@@ -3,8 +3,6 @@ ISSUE_TEMPLATE.md
 PULL_REQUEST_TEMPLATE.md
 yarn.lock
 package-lock.json
-__tests__
 .editorconfig
 .eslintrc.js
-jest.*
-__mocks__
+tests
