@@ -35,7 +35,7 @@ If no `package_file` argument passed, the script searches for a `package.json` f
 
 Use `--no-overwrite` flag to prevent already existing packages in `package.json` from being overwritten.
 
-Example:
+Example: 
 
 ```sh
 $ add-dependencies /home/user/project/package.json moment@2.0.0 react@16.8 redux eslint --dev
