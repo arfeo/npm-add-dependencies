@@ -24,32 +24,30 @@ const generateDefaultPackageJson = () => {
   });
 };
 
-const cliRunAndVerify = async (done, expectedJsonOverrides) => {
-  generateRandomFilename().then((packageJson) => {
-    generateDefaultPackageJson().then((defaultPackageJson) => {
-      Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() => {
-        require('../../cli-index');
-        Files.readFromFile(packageJson).then((jsonResult) => {
-          const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
-          try {
-            expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-            expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
+const cliRunAndVerify = async (done, packageJsonFilename, expectedJsonOverrides) => {
+  generateDefaultPackageJson().then((defaultPackageJson) => {
+    Files.writeToFile(packageJsonFilename, JSON.stringify(defaultPackageJson)).then(() => {
+      require('../../cli-index');
+      Files.readFromFile(packageJsonFilename).then((jsonResult) => {
+        const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+        try {
+          expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+          expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
     });
   });
 };
 
-const runAndVerify = async (done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides) => {
+const runAndVerify = async (done, classForTesting, packageJsonFilename, testExpectObject, expectedJsonOverrides) => {
   expect(classForTesting).toMatchObject(testExpectObject);
   generateDefaultPackageJson().then((defaultPackageJson) =>
-    Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
+    Files.writeToFile(packageJsonFilename, JSON.stringify(defaultPackageJson)).then(() =>
       classForTesting.run().then(() =>
-        Files.readFromFile(packageJson).then((jsonResult) => {
+        Files.readFromFile(packageJsonFilename).then((jsonResult) => {
           const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
@@ -90,14 +88,10 @@ const runAndVerifyWithFailures = async (done, classForTesting, packageJson, test
     Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() =>
       classForTesting.run().then(() =>
         Files.readFromFile(packageJson).then((expectedJson) => {
-          try {
-            expect(JSON.parse(expectedJson)).not.toEqual(defaultPackageJson);
-            // expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
-            // expect(process.exit).toHaveBeenCalledWith(1);
-            done();
-          } catch (e) {
-            done(e);
-          }
+          expect(JSON.parse(expectedJson)).not.toEqual(defaultPackageJson);
+          // expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+          // expect(process.exit).toHaveBeenCalledWith(1);
+          done();
         })
       )
     )
