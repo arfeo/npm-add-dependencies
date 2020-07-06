@@ -1,4 +1,13 @@
-jest.spyOn(process, 'exit').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
+beforeEach(() => {
+  console.log = jest.fn();
+  process.exit = jest.fn();
+  console.error = jest.fn();
+  console.warn = jest.fn();
+});
+
+afterEach(() => {
+  console.log = jest.fn();
+  process.exit = jest.fn();
+  console.error = jest.fn();
+  console.warn = jest.fn();
+});

@@ -1,4 +1,4 @@
-const argv = require('../__mocks__/argv');
+const argv = require('mock-argv');
 const addDependenciesNonCli = require('../../index');
 const {
   cliRunAndVerifyWithFailures,
@@ -9,8 +9,8 @@ const {
 
 describe('cli run()', () => {
   test('test argv mock', (done) => {
-    argv(`../package.json ${addDependenciesNonCli.CONSTANTS.DEPENDENCIES} jest@26.0.1`).then((input) => {
-      expect(input).toEqual(['../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES, 'jest@26.0.1']);
+    argv(['../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES, 'jest@26.0.1'], () => {
+      expect(process.argv).toContain('../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES, 'jest@26.0.1');
       done();
     });
   });

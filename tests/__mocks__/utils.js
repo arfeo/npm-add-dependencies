@@ -1,6 +1,6 @@
 const path = require('path');
 const Files = require('../../lib/Files');
-const argv = require('./argv');
+const argv = require('mock-argv');
 const { TEST_JSON_DIR } = require('../jest.config');
 const md5 = require('blueimp-md5');
 
@@ -33,7 +33,7 @@ const cliRunAndVerify = async (done, expectedJsonOverrides) => {
           const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-            expect(console.log.mock.calls[console.log.mock.calls.length - 1][1]).toEqual('Done.');
+            expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
             done();
           } catch (e) {
             done(e);
@@ -53,7 +53,7 @@ const runAndVerify = async (done, classForTesting, packageJson, testExpectObject
           const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-            expect(console.log.mock.calls[console.log.mock.calls.length - 1][1]).toEqual('Done.');
+            expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
             done();
           } catch (e) {
             done(e);
@@ -66,15 +66,13 @@ const runAndVerify = async (done, classForTesting, packageJson, testExpectObject
 
 const cliRunAndVerifyWithFailures = async (done, inputsString) => {
   generateRandomFilename().then((packageJson) => {
-    argv(inputsString + ` ${packageJson}`).then(() => {
+    argv([inputsString, packageJson], () => {
       generateDefaultPackageJson().then((defaultPackageJson) => {
         Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(() => {
           require('../../cli-index');
           try {
             // add test to test log
-            expect(console.error.mock.calls[console.error.mock.calls.length - 1][1]).toEqual(
-              'No dependencies passed. Stop.'
-            );
+            expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
             expect(process.exit).toHaveBeenCalledWith(1);
             done();
           } catch (e) {
@@ -94,6 +92,8 @@ const runAndVerifyWithFailures = async (done, classForTesting, packageJson, test
         Files.readFromFile(packageJson).then((expectedJson) => {
           try {
             expect(JSON.parse(expectedJson)).not.toEqual(defaultPackageJson);
+            // expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+            // expect(process.exit).toHaveBeenCalledWith(1);
             done();
           } catch (e) {
             done(e);
@@ -111,6 +111,7 @@ module.exports = {
   runAndVerify,
   runAndVerifyWithFailures,
   generateRandomFilename,
+  generateDefaultPackageJson,
   cliRunAndVerifyWithFailures,
   cliRunAndVerify,
 };
