@@ -1,6 +1,9 @@
 const argv = require('mock-argv');
 const ClassForTesting = require('../../../index');
-const { generateRandomFilename, generateDefaultPackageJson } = require('../../__mocks__/utils');
+const {
+  generateRandomFilename,
+  generateDefaultPackageJson
+} = require('../../__mocks__/utils');
 const Files = require('../../../lib/Files');
 
 describe('test run()', () => {
@@ -228,7 +231,8 @@ describe('test runNpmShow()', () => {
     const depName = 'dffdsfdsdsfzfsfafdsfdsafdsadfsa';
     const npmAdd = new ClassForTesting();
     npmAdd.runNpmShow('dffdsfdsdsfzfsfafdsfdsafdsadfsa').then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
+      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
+        `Could not fetch version info for: ${depName}. Skip.`);
       done();
     });
   });
@@ -237,7 +241,8 @@ describe('test runNpmShow()', () => {
     const depName = 'dffdsfdsdsfzfsfafdsfdsafdsadfsa';
     const npmAdd = new ClassForTesting();
     npmAdd.runNpmShow(`${depName}@1.2.3`).then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', `Could not fetch version info for: ${depName}. Skip.`);
+      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
+        `Could not fetch version info for: ${depName}. Skip.`);
       done();
     });
   });
@@ -338,7 +343,8 @@ describe('test saveToPackage()', () => {
     const npmAdd = new ClassForTesting();
     npmAdd.packageFilePath = 'asdsadasda/package.json';
     npmAdd.saveToPackage().then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', `Could not read from ${npmAdd.packageFilePath}. Stop.`);
+      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
+        `Could not read from ${npmAdd.packageFilePath}. Stop.`);
       expect(process.exit).toHaveBeenCalledWith(1);
       done();
     });
@@ -350,7 +356,8 @@ describe('test saveToPackage()', () => {
         const npmAdd = new ClassForTesting();
         npmAdd.packageFilePath = fileName;
         npmAdd.saveToPackage().then(() => {
-          expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', `Could not parse ${npmAdd.packageFilePath}. Stop.`);
+          expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
+            `Could not parse ${npmAdd.packageFilePath}. Stop.`);
           expect(process.exit).toHaveBeenCalledWith(1);
           done();
         });
@@ -376,7 +383,10 @@ describe('test saveToPackage()', () => {
           };
           npmAdd.saveToPackage().then(() =>
             Files.readFromFile(fileName).then((jsonResult) => {
-              const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+              const expectedJson = {
+                ...defaultPackageJson,
+                ...expectedJsonOverrides
+              };
               expect(JSON.parse(jsonResult)).toEqual(expectedJson);
               expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
               done();
@@ -401,7 +411,10 @@ describe('test saveToPackage()', () => {
           };
           npmAdd.saveToPackage().then(() =>
             Files.readFromFile(fileName).then((jsonResult) => {
-              const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+              const expectedJson = {
+                ...defaultPackageJson,
+                ...expectedJsonOverrides
+              };
               expect(JSON.parse(jsonResult)).toEqual(expectedJson);
               expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
               done();

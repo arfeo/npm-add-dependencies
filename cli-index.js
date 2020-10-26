@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const AddDependencies = require('./lib/AddDependencies');
 
 console.log(

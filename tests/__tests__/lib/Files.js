@@ -1,7 +1,9 @@
 const Files = require('../../../lib/Files');
 const fs = require('fs');
 const path = require('path');
-const { generateRandomFilename } = require('../../__mocks__/utils');
+const {
+  generateRandomFilename
+} = require('../../__mocks__/utils');
 
 describe('readFromFile() Tests', () => {
   test('file exists', async (done) => {

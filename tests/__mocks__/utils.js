@@ -1,7 +1,9 @@
 const path = require('path');
 const Files = require('../../lib/Files');
 const argv = require('mock-argv');
-const { TEST_JSON_DIR } = require('../jest.config');
+const {
+  TEST_JSON_DIR
+} = require('../jest.config');
 const md5 = require('blueimp-md5');
 
 // no params
@@ -15,10 +17,18 @@ const defaultExpect = {
 const generateDefaultPackageJson = () => {
   return Files.readFromFile(path.resolve(__dirname, '../..', 'package.json')).then((defaultPackageJsonString) => {
     const defaultPackageJson = JSON.parse(defaultPackageJsonString);
-    defaultPackageJson.dependencies = { jest: '26.0.0' };
-    defaultPackageJson.devDependencies = { jest: '26.0.0' };
-    defaultPackageJson.optionalDependencies = { jest: '26.0.0' };
-    defaultPackageJson.peerDependencies = { jest: '26.0.0' };
+    defaultPackageJson.dependencies = {
+      jest: '26.0.0'
+    };
+    defaultPackageJson.devDependencies = {
+      jest: '26.0.0'
+    };
+    defaultPackageJson.optionalDependencies = {
+      jest: '26.0.0'
+    };
+    defaultPackageJson.peerDependencies = {
+      jest: '26.0.0'
+    };
     defaultPackageJson.name = '';
     return defaultPackageJson;
   });
@@ -29,7 +39,10 @@ const cliRunAndVerify = async (done, packageJsonFilename, expectedJsonOverrides)
     Files.writeToFile(packageJsonFilename, JSON.stringify(defaultPackageJson)).then(() => {
       require('../../cli-index');
       Files.readFromFile(packageJsonFilename).then((jsonResult) => {
-        const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+        const expectedJson = {
+          ...defaultPackageJson,
+          ...expectedJsonOverrides
+        };
         try {
           expect(JSON.parse(jsonResult)).toEqual(expectedJson);
           expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
@@ -48,7 +61,10 @@ const runAndVerify = async (done, classForTesting, packageJsonFilename, testExpe
     Files.writeToFile(packageJsonFilename, JSON.stringify(defaultPackageJson)).then(() =>
       classForTesting.run().then(() =>
         Files.readFromFile(packageJsonFilename).then((jsonResult) => {
-          const expectedJson = { ...defaultPackageJson, ...expectedJsonOverrides };
+          const expectedJson = {
+            ...defaultPackageJson,
+            ...expectedJsonOverrides
+          };
           try {
             expect(JSON.parse(jsonResult)).toEqual(expectedJson);
             expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
@@ -70,7 +86,8 @@ const cliRunAndVerifyWithFailures = async (done, inputsString) => {
           require('../../cli-index');
           try {
             // add test to test log
-            expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+            expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
+              'No dependencies passed. Stop.');
             expect(process.exit).toHaveBeenCalledWith(1);
             done();
           } catch (e) {
