@@ -61,7 +61,10 @@ describe('writeToFile() Tests', () => {
   });
 
   test('throw when folder doesnt exist', async (done) => {
-    Files.writeToFile(path.resolve('some', 'random', 'folder.txt'), 'something else')
+    Files.writeToFile(
+        path.resolve('some', 'random', 'folder.txt'),
+        'something else'
+      )
       .then(() => {})
       .catch((e) => {
         expect(e.code).toEqual('ENOENT');

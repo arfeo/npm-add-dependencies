@@ -3,7 +3,7 @@ const {
   runAndVerifyWithFailures,
   runAndVerify,
   generateRandomFilename,
-  defaultExpect
+  defaultExpect,
 } = require('../__mocks__/utils');
 
 // todo add a test for connection timeout this made me think i had fucked it allll up :D
@@ -14,9 +14,18 @@ describe('nodeJS run()', () => {
         ...defaultExpect,
         packageFilePath: packageJson,
       };
-      const classForTesting = new ClassForTesting(['jest'], ClassForTesting.CONSTANTS.DEPENDENCIES, true,
-        packageJson);
-      runAndVerifyWithFailures(done, classForTesting, packageJson, testExpectObject).then();
+      const classForTesting = new addDependencies(
+        ['jest'],
+        addDependencies.CONSTANTS.DEPENDENCIES,
+        true,
+        packageJson
+      );
+      runAndVerifyWithFailures(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject
+      ).then();
     });
   });
 
@@ -26,14 +35,20 @@ describe('nodeJS run()', () => {
         ...defaultExpect,
         packageFilePath: packageJson,
       };
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         ['jest@26.0.0'],
-        ClassForTesting.CONSTANTS.DEPENDENCIES,
+        addDependencies.CONSTANTS.DEPENDENCIES,
         true,
         packageJson
       );
       const expectedJsonOverrides = {};
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
@@ -45,9 +60,9 @@ describe('nodeJS run()', () => {
         packageFilePath: packageJson,
         dependencies: dependencies,
       };
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         dependencies,
-        ClassForTesting.CONSTANTS.DEPENDENCIES,
+        addDependencies.CONSTANTS.DEPENDENCIES,
         true,
         packageJson
       );
@@ -56,7 +71,13 @@ describe('nodeJS run()', () => {
           jest: '26.0.1',
         },
       };
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
@@ -64,9 +85,9 @@ describe('nodeJS run()', () => {
     generateRandomFilename().then((packageJson) => {
       const dependencies = ['jest@26.0.1'];
 
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         dependencies,
-        ClassForTesting.CONSTANTS.DEPENDENCIES,
+        addDependencies.CONSTANTS.DEPENDENCIES,
         false,
         packageJson
       );
@@ -77,15 +98,21 @@ describe('nodeJS run()', () => {
         overwrite: false,
       };
       const expectedJsonOverrides = {};
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
   test('with package path', async (done) => {
     generateRandomFilename().then((packageJson) => {
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         ['jest@26.0.0'],
-        ClassForTesting.CONSTANTS.DEPENDENCIES,
+        addDependencies.CONSTANTS.DEPENDENCIES,
         true,
         packageJson
       );
@@ -94,16 +121,22 @@ describe('nodeJS run()', () => {
         packageFilePath: packageJson,
       };
       const expectedJsonOverrides = {};
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
   test('with dev dependencies overwrite with caret', async (done) => {
     generateRandomFilename().then((packageJson) => {
       const dependencies = ['jest@^26.0.1'];
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         dependencies,
-        ClassForTesting.CONSTANTS.DEV_DEPENDENCIES,
+        addDependencies.CONSTANTS.DEV_DEPENDENCIES,
         true,
         packageJson
       );
@@ -119,16 +152,22 @@ describe('nodeJS run()', () => {
           jest: '^26.0.1',
         },
       };
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
   test('with optional dependencies overwrite lower', async (done) => {
     generateRandomFilename().then((packageJson) => {
       const dependencies = ['jest@25.0.0'];
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         dependencies,
-        ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES,
+        addDependencies.CONSTANTS.OPTIONAL_DEPENDENCIES,
         true,
         packageJson
       );
@@ -143,16 +182,22 @@ describe('nodeJS run()', () => {
           jest: '25.0.0',
         },
       };
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 
   test('with peer dependencies overwrite', async (done) => {
     generateRandomFilename().then((packageJson) => {
       const dependencies = ['jest@26.0.1'];
-      const classForTesting = new ClassForTesting(
+      const classForTesting = new addDependencies(
         dependencies,
-        ClassForTesting.CONSTANTS.PEER_DEPENDENCIES,
+        addDependencies.CONSTANTS.PEER_DEPENDENCIES,
         true,
         packageJson
       );
@@ -167,7 +212,13 @@ describe('nodeJS run()', () => {
           jest: '26.0.1',
         },
       };
-      runAndVerify(done, classForTesting, packageJson, testExpectObject, expectedJsonOverrides).then();
+      runAndVerify(
+        done,
+        classForTesting,
+        packageJson,
+        testExpectObject,
+        expectedJsonOverrides
+      ).then();
     });
   });
 });

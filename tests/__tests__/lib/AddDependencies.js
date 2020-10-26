@@ -2,7 +2,7 @@ const argv = require('mock-argv');
 const ClassForTesting = require('../../../index');
 const {
   generateRandomFilename,
-  generateDefaultPackageJson
+  generateDefaultPackageJson,
 } = require('../../__mocks__/utils');
 const Files = require('../../../lib/Files');
 
@@ -14,14 +14,17 @@ describe('test run()', () => {
 
 describe('test addDependencies()', () => {
   test('None', (done) => {
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.addDependencies().then(() => {
       expect(npmAdd.result).toEqual({});
-      expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEPENDENCIES);
+      expect(npmAdd.target).toEqual(addDependencies.CONSTANTS.DEPENDENCIES);
       expect(npmAdd.overwrite).toEqual(true);
       expect(npmAdd.packageFilePath).toEqual('./package.json');
       expect(npmAdd.dependencies).toEqual([]);
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+      expect(console.error).toBeCalledWith(
+        '\x1b[31m%s\x1b[0m',
+        'No dependencies passed. Stop.'
+      );
       expect(process.exit).toHaveBeenCalledWith(1);
       done();
     });
@@ -29,14 +32,19 @@ describe('test addDependencies()', () => {
 
   test('-D', (done) => {
     argv(['-D'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEV_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.DEV_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -44,14 +52,19 @@ describe('test addDependencies()', () => {
   });
   test('--save-dev', (done) => {
     argv(['--save-dev'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEV_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.DEV_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -59,14 +72,19 @@ describe('test addDependencies()', () => {
   });
   test('--dev', (done) => {
     argv(['--dev'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEV_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.DEV_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -75,14 +93,19 @@ describe('test addDependencies()', () => {
 
   test('-P', (done) => {
     argv(['-P'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.PEER_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.PEER_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -90,14 +113,19 @@ describe('test addDependencies()', () => {
   });
   test('--save-peer', (done) => {
     argv(['--save-peer'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.PEER_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.PEER_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -105,14 +133,19 @@ describe('test addDependencies()', () => {
   });
   test('--peer', (done) => {
     argv(['--peer'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.PEER_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.PEER_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -121,14 +154,19 @@ describe('test addDependencies()', () => {
 
   test('-O', (done) => {
     argv(['-O'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.OPTIONAL_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -136,14 +174,19 @@ describe('test addDependencies()', () => {
   });
   test('--save-optional', (done) => {
     argv(['--save-optional'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.OPTIONAL_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -151,14 +194,19 @@ describe('test addDependencies()', () => {
   });
   test('--optional', (done) => {
     argv(['--optional'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES);
+        expect(npmAdd.target).toEqual(
+          addDependencies.CONSTANTS.OPTIONAL_DEPENDENCIES
+        );
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -167,14 +215,17 @@ describe('test addDependencies()', () => {
 
   test('--no-overwrite', (done) => {
     argv(['--no-overwrite'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
         expect(npmAdd.overwrite).toEqual(false);
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEPENDENCIES);
+        expect(npmAdd.target).toEqual(addDependencies.CONSTANTS.DEPENDENCIES);
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.packageFilePath).toEqual('./package.json');
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -183,14 +234,17 @@ describe('test addDependencies()', () => {
 
   test('package.json', (done) => {
     argv(['../../../package.json'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
         expect(npmAdd.packageFilePath).toEqual('../../../package.json');
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEPENDENCIES);
+        expect(npmAdd.target).toEqual(addDependencies.CONSTANTS.DEPENDENCIES);
         expect(npmAdd.result).toEqual({});
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.dependencies).toEqual([]);
-        expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+        expect(console.error).toBeCalledWith(
+          '\x1b[31m%s\x1b[0m',
+          'No dependencies passed. Stop.'
+        );
         expect(process.exit).toHaveBeenCalledWith(1);
         done();
       });
@@ -200,10 +254,10 @@ describe('test addDependencies()', () => {
   test('some packages', (done) => {
     const deps = ['jquery', 'semver@^6.3.0', 'npm-run@~5.0.1'];
     argv(['jquery', 'semver@^6.3.0', 'npm-run@~5.0.1'], () => {
-      const npmAdd = new ClassForTesting();
+      const npmAdd = new addDependencies();
       npmAdd.addDependencies().then(() => {
         expect(npmAdd.dependencies).toEqual(deps);
-        expect(npmAdd.target).toEqual(ClassForTesting.CONSTANTS.DEPENDENCIES);
+        expect(npmAdd.target).toEqual(addDependencies.CONSTANTS.DEPENDENCIES);
         expect(npmAdd.result).toEqual({
           jquery: '^3.5.1',
           'npm-run': '~5.0.1',
@@ -211,7 +265,9 @@ describe('test addDependencies()', () => {
         });
         expect(npmAdd.overwrite).toEqual(true);
         expect(npmAdd.packageFilePath).toEqual('./package.json');
-        expect(console.log).toBeCalledWith(`Adding packages to '${npmAdd.target}'...`);
+        expect(console.log).toBeCalledWith(
+          `Adding packages to '${npmAdd.target}'...`
+        );
         done();
       });
     });
@@ -220,38 +276,47 @@ describe('test addDependencies()', () => {
 
 describe('test runNpmShow()', () => {
   test('no dep', (done) => {
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow().then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', `No Dependency Provided to runNpmShow()`);
+      expect(console.error).toBeCalledWith(
+        '\x1b[31m%s\x1b[0m',
+        `No Dependency Provided to runNpmShow()`
+      );
       done();
     });
   });
 
   test('non existent dep', (done) => {
     const depName = 'dffdsfdsdsfzfsfafdsfdsafdsadfsa';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow('dffdsfdsdsfzfsfafdsfdsafdsadfsa').then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
-        `Could not fetch version info for: ${depName}. Skip.`);
+      expect(console.error).toBeCalledWith(
+        '\x1b[31m%s\x1b[0m',
+        `Could not fetch version info for: ${depName}. Skip.`
+      );
       done();
     });
   });
 
   test('non existent dep with version', (done) => {
     const depName = 'dffdsfdsdsfzfsfafdsfdsafdsadfsa';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@1.2.3`).then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
-        `Could not fetch version info for: ${depName}. Skip.`);
+      expect(console.error).toBeCalledWith(
+        '\x1b[31m%s\x1b[0m',
+        `Could not fetch version info for: ${depName}. Skip.`
+      );
       done();
     });
   });
 
   test('dep no version', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(depName).then(() => {
-      expect(console.log).toBeCalledWith(expect.stringContaining(`Processed: ${depName}, latest version:`));
+      expect(console.log).toBeCalledWith(
+        expect.stringContaining(`Processed: ${depName}, latest version:`)
+      );
       done();
     });
   });
@@ -259,16 +324,18 @@ describe('test runNpmShow()', () => {
   test('dep with @', (done) => {
     const depName = 'jquery';
     const version = '3.5.1';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@3.5.1`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: ${version}`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: ${version}`
+      );
       done();
     });
   });
 
   test('dep with @ invalid version', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@1.2.3`).then(() => {
       expect(console.error).toBeCalledWith(
         '\x1b[31m%s\x1b[0m',
@@ -280,54 +347,66 @@ describe('test runNpmShow()', () => {
 
   test('dep with ^', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@^2.0.0`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: ^2.0.0`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: ^2.0.0`
+      );
       done();
     });
   });
 
   test('dep with <', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@<2.2.4`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: <2.2.4`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: <2.2.4`
+      );
       done();
     });
   });
 
   test('dep with <=', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@<=2.2.4`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: <=2.2.4`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: <=2.2.4`
+      );
       done();
     });
   });
 
   test('dep with >', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@>2.2.3`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: >2.2.3`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: >2.2.3`
+      );
       done();
     });
   });
 
   test('dep with >=', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@>=2.2.4`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: >=2.2.4`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: >=2.2.4`
+      );
       done();
     });
   });
 
   test('dep with ~', (done) => {
     const depName = 'jquery';
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.runNpmShow(`${depName}@~2.2.0`).then(() => {
-      expect(console.log).toBeCalledWith(`Processed: ${depName}, specified version: ~2.2.0`);
+      expect(console.log).toBeCalledWith(
+        `Processed: ${depName}, specified version: ~2.2.0`
+      );
       done();
     });
   });
@@ -340,11 +419,13 @@ describe('test saveToPackage()', () => {
     //     Files.writeToFile(fileName, JSON.stringify(defaultPackageJson))
     //   )
     // );
-    const npmAdd = new ClassForTesting();
+    const npmAdd = new addDependencies();
     npmAdd.packageFilePath = 'asdsadasda/package.json';
     npmAdd.saveToPackage().then(() => {
-      expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
-        `Could not read from ${npmAdd.packageFilePath}. Stop.`);
+      expect(console.error).toBeCalledWith(
+        '\x1b[31m%s\x1b[0m',
+        `Could not read from ${npmAdd.packageFilePath}. Stop.`
+      );
       expect(process.exit).toHaveBeenCalledWith(1);
       done();
     });
@@ -353,11 +434,13 @@ describe('test saveToPackage()', () => {
   test('not json', (done) => {
     generateRandomFilename().then((fileName) =>
       Files.writeToFile(fileName, 'i am random text').then(() => {
-        const npmAdd = new ClassForTesting();
+        const npmAdd = new addDependencies();
         npmAdd.packageFilePath = fileName;
         npmAdd.saveToPackage().then(() => {
-          expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m',
-            `Could not parse ${npmAdd.packageFilePath}. Stop.`);
+          expect(console.error).toBeCalledWith(
+            '\x1b[31m%s\x1b[0m',
+            `Could not parse ${npmAdd.packageFilePath}. Stop.`
+          );
           expect(process.exit).toHaveBeenCalledWith(1);
           done();
         });
@@ -372,8 +455,9 @@ describe('test saveToPackage()', () => {
         defaultPackageJson.devDependencies = {};
         defaultPackageJson.optionalDependencies = {};
         defaultPackageJson.peerDependencies = {};
-        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(() => {
-          const npmAdd = new ClassForTesting();
+        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
+          () => {
+            const npmAdd = new addDependencies();
           npmAdd.packageFilePath = fileName;
           npmAdd.result['jest'] = '26.0.0';
           const expectedJsonOverrides = {
@@ -385,14 +469,18 @@ describe('test saveToPackage()', () => {
             Files.readFromFile(fileName).then((jsonResult) => {
               const expectedJson = {
                 ...defaultPackageJson,
-                ...expectedJsonOverrides
+                  ...expectedJsonOverrides,
               };
               expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-              expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
+                expect(console.log).toBeCalledWith(
+                  '\x1b[32m%s\x1b[0m',
+                  'Done.'
+                );
               done();
             })
           );
-        });
+          }
+        );
       })
     );
   });
@@ -400,8 +488,9 @@ describe('test saveToPackage()', () => {
   test('json with packages and overwrite', (done) => {
     generateRandomFilename().then((fileName) =>
       generateDefaultPackageJson().then((defaultPackageJson) => {
-        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(() => {
-          const npmAdd = new ClassForTesting();
+        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
+          () => {
+            const npmAdd = new addDependencies();
           npmAdd.packageFilePath = fileName;
           npmAdd.result['jest'] = '26.0.1';
           const expectedJsonOverrides = {
@@ -413,14 +502,18 @@ describe('test saveToPackage()', () => {
             Files.readFromFile(fileName).then((jsonResult) => {
               const expectedJson = {
                 ...defaultPackageJson,
-                ...expectedJsonOverrides
+                  ...expectedJsonOverrides,
               };
               expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-              expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
+                expect(console.log).toBeCalledWith(
+                  '\x1b[32m%s\x1b[0m',
+                  'Done.'
+                );
               done();
             })
           );
-        });
+          }
+        );
       })
     );
   });
@@ -428,19 +521,24 @@ describe('test saveToPackage()', () => {
   test('json with packages no overwrite', (done) => {
     generateRandomFilename().then((fileName) =>
       generateDefaultPackageJson().then((defaultPackageJson) => {
-        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(() => {
-          const npmAdd = new ClassForTesting();
+        Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
+          () => {
+            const npmAdd = new addDependencies();
           npmAdd.packageFilePath = fileName;
           npmAdd.overwrite = false;
           npmAdd.result['jest'] = '26.0.1';
           npmAdd.saveToPackage().then(() =>
             Files.readFromFile(fileName).then((jsonResult) => {
               expect(JSON.parse(jsonResult)).toEqual(defaultPackageJson);
-              expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
+                expect(console.log).toBeCalledWith(
+                  '\x1b[32m%s\x1b[0m',
+                  'Done.'
+                );
               done();
             })
           );
-        });
+          }
+        );
       })
     );
   });
@@ -448,18 +546,24 @@ describe('test saveToPackage()', () => {
 
 describe('test CONSTANTS()', () => {
   test('dependencies', () => {
-    expect(ClassForTesting.CONSTANTS.DEPENDENCIES).toEqual('dependencies');
+    expect(addDependencies.CONSTANTS.DEPENDENCIES).toEqual('dependencies');
   });
 
   test('devDependencies', () => {
-    expect(ClassForTesting.CONSTANTS.DEV_DEPENDENCIES).toEqual('devDependencies');
+    expect(addDependencies.CONSTANTS.DEV_DEPENDENCIES).toEqual(
+      'devDependencies'
+    );
   });
 
   test('peerDependencies', () => {
-    expect(ClassForTesting.CONSTANTS.PEER_DEPENDENCIES).toEqual('peerDependencies');
+    expect(addDependencies.CONSTANTS.PEER_DEPENDENCIES).toEqual(
+      'peerDependencies'
+    );
   });
 
   test('optionalDependencies', () => {
-    expect(ClassForTesting.CONSTANTS.OPTIONAL_DEPENDENCIES).toEqual('optionalDependencies');
+    expect(addDependencies.CONSTANTS.OPTIONAL_DEPENDENCIES).toEqual(
+      'optionalDependencies'
+    );
   });
 });

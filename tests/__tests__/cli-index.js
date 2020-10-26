@@ -13,11 +13,21 @@ describe('cli run()', () => {
   });
 
   test('test argv mock', (done) => {
-    argv(['../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES, 'jest@26.0.1'], () => {
-      expect(process.argv).toContain('../package.json', addDependenciesNonCli.CONSTANTS.DEPENDENCIES,
-        'jest@26.0.1');
+    argv(
+      [
+        '../package.json',
+        addDependenciesNonCli.CONSTANTS.DEPENDENCIES,
+        'jest@26.0.1',
+      ],
+      () => {
+        expect(process.argv).toContain(
+          '../package.json',
+          addDependenciesNonCli.CONSTANTS.DEPENDENCIES,
+          'jest@26.0.1'
+        );
       done();
-    });
+      }
+    );
   });
 
   test('cli fail to make sure tests themselves work', async (done) => {
