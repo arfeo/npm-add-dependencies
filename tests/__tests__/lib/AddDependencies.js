@@ -1,5 +1,5 @@
 const argv = require('mock-argv');
-const ClassForTesting = require('../../../index');
+import addDependencies from '../../../index';
 const {
   generateRandomFilename,
   generateDefaultPackageJson,
@@ -458,27 +458,27 @@ describe('test saveToPackage()', () => {
         Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
           () => {
             const npmAdd = new addDependencies();
-          npmAdd.packageFilePath = fileName;
-          npmAdd.result['jest'] = '26.0.0';
-          const expectedJsonOverrides = {
-            dependencies: {
-              jest: '26.0.0',
-            },
-          };
-          npmAdd.saveToPackage().then(() =>
-            Files.readFromFile(fileName).then((jsonResult) => {
-              const expectedJson = {
-                ...defaultPackageJson,
+            npmAdd.packageFilePath = fileName;
+            npmAdd.result['jest'] = '26.0.0';
+            const expectedJsonOverrides = {
+              dependencies: {
+                jest: '26.0.0',
+              },
+            };
+            npmAdd.saveToPackage().then(() =>
+              Files.readFromFile(fileName).then((jsonResult) => {
+                const expectedJson = {
+                  ...defaultPackageJson,
                   ...expectedJsonOverrides,
-              };
-              expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+                };
+                expect(JSON.parse(jsonResult)).toEqual(expectedJson);
                 expect(console.log).toBeCalledWith(
                   '\x1b[32m%s\x1b[0m',
                   'Done.'
                 );
-              done();
-            })
-          );
+                done();
+              })
+            );
           }
         );
       })
@@ -491,27 +491,27 @@ describe('test saveToPackage()', () => {
         Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
           () => {
             const npmAdd = new addDependencies();
-          npmAdd.packageFilePath = fileName;
-          npmAdd.result['jest'] = '26.0.1';
-          const expectedJsonOverrides = {
-            dependencies: {
-              jest: '26.0.1',
-            },
-          };
-          npmAdd.saveToPackage().then(() =>
-            Files.readFromFile(fileName).then((jsonResult) => {
-              const expectedJson = {
-                ...defaultPackageJson,
+            npmAdd.packageFilePath = fileName;
+            npmAdd.result['jest'] = '26.0.1';
+            const expectedJsonOverrides = {
+              dependencies: {
+                jest: '26.0.1',
+              },
+            };
+            npmAdd.saveToPackage().then(() =>
+              Files.readFromFile(fileName).then((jsonResult) => {
+                const expectedJson = {
+                  ...defaultPackageJson,
                   ...expectedJsonOverrides,
-              };
-              expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+                };
+                expect(JSON.parse(jsonResult)).toEqual(expectedJson);
                 expect(console.log).toBeCalledWith(
                   '\x1b[32m%s\x1b[0m',
                   'Done.'
                 );
-              done();
-            })
-          );
+                done();
+              })
+            );
           }
         );
       })
@@ -524,19 +524,19 @@ describe('test saveToPackage()', () => {
         Files.writeToFile(fileName, JSON.stringify(defaultPackageJson)).then(
           () => {
             const npmAdd = new addDependencies();
-          npmAdd.packageFilePath = fileName;
-          npmAdd.overwrite = false;
-          npmAdd.result['jest'] = '26.0.1';
-          npmAdd.saveToPackage().then(() =>
-            Files.readFromFile(fileName).then((jsonResult) => {
-              expect(JSON.parse(jsonResult)).toEqual(defaultPackageJson);
+            npmAdd.packageFilePath = fileName;
+            npmAdd.overwrite = false;
+            npmAdd.result['jest'] = '26.0.1';
+            npmAdd.saveToPackage().then(() =>
+              Files.readFromFile(fileName).then((jsonResult) => {
+                expect(JSON.parse(jsonResult)).toEqual(defaultPackageJson);
                 expect(console.log).toBeCalledWith(
                   '\x1b[32m%s\x1b[0m',
                   'Done.'
                 );
-              done();
-            })
-          );
+                done();
+              })
+            );
           }
         );
       })

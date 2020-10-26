@@ -2,7 +2,7 @@ const Files = require('../../../lib/Files');
 const fs = require('fs');
 const path = require('path');
 const {
-  generateRandomFilename
+  generateRandomFilename, //
 } = require('../../__mocks__/utils');
 
 describe('readFromFile() Tests', () => {

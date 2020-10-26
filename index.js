@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-module.exports = require('./lib/AddDependencies');
+import AddDependencies from './lib/AddDependencies';
+
+export default AddDependencies;

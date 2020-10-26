@@ -1,4 +1,4 @@
-const ClassForTesting = require('../../index');
+import addDependencies from '../../index';
 const {
   runAndVerifyWithFailures,
   runAndVerify,

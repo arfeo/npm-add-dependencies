@@ -2,7 +2,7 @@ const path = require('path');
 const Files = require('../../lib/Files');
 const argv = require('mock-argv');
 const {
-  TEST_JSON_DIR
+  TEST_JSON_DIR, //
 } = require('../jest.config');
 const md5 = require('blueimp-md5');
 
@@ -130,15 +130,16 @@ const runAndVerifyWithFailures = async (
   expect(classForTesting).not.toEqual(testExpectObject);
   generateDefaultPackageJson().then((defaultPackageJson) =>
     Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(
-      () =>
-      classForTesting.run().then(() =>
-        Files.readFromFile(packageJson).then((expectedJson) => {
-          expect(JSON.parse(expectedJson)).not.toEqual(defaultPackageJson);
-          // expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
-          // expect(process.exit).toHaveBeenCalledWith(1);
-          done();
-        })
-      )
+      () => {
+        classForTesting.run().then(() =>
+          Files.readFromFile(packageJson).then((expectedJson) => {
+            expect(JSON.parse(expectedJson)).not.toEqual(defaultPackageJson);
+            // expect(console.error).toBeCalledWith('\x1b[31m%s\x1b[0m', 'No dependencies passed. Stop.');
+            // expect(process.exit).toHaveBeenCalledWith(1);
+            done();
+          })
+        );
+      }
     )
   );
 };

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
-  TEST_JSON_DIR
+  TEST_JSON_DIR, //
 } = require('../jest.config');
 
 module.exports = async () => {

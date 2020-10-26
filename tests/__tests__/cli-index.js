@@ -1,10 +1,10 @@
 const argv = require('mock-argv');
-const addDependenciesNonCli = require('../../index');
+import addDependenciesNonCli from '../../index';
 const {
   cliRunAndVerifyWithFailures,
   cliRunAndVerify,
   generateRandomFilename,
-  defaultExpect,
+  // defaultExpect,
 } = require('../__mocks__/utils');
 
 describe('cli run()', () => {
@@ -25,7 +25,7 @@ describe('cli run()', () => {
           addDependenciesNonCli.CONSTANTS.DEPENDENCIES,
           'jest@26.0.1'
         );
-      done();
+        done();
       }
     );
   });
@@ -44,11 +44,11 @@ describe('cli run()', () => {
   });
 
   test('run() with dependencies with override', async (done) => {
-    const expectedJsonOverrides = {
-      dependencies: {
-        jest: '26.0.1',
-      },
-    };
+    // const expectedJsonOverrides = {
+    //   dependencies: {
+    //     jest: '26.0.1',
+    //   },
+    // };
     generateRandomFilename().then((packageJson) =>
       argv([packageJson, 'jest@26.0.1'], () => {
         expect(process.argv).toContain(packageJson);

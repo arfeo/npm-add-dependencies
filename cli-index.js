@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const AddDependencies = require('./lib/AddDependencies');
+import AddDependencies from './lib/AddDependencies';
 
 console.log(
   '\x1b[33m%s\x1b[0m',
