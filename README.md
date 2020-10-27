@@ -50,7 +50,11 @@ $ npx add-dependencies /home/user/project/package.json moment@2.0.0 react@16.8 r
 or via nodejs
 
 ```js
+const npmAdd = require('add-dependencies');
+//OR
+// Note: to use import you must have `"type": "module"` in your projects package.json
 import npmAdd from 'add-dependencies';
+
 const dependencies = [
     'package1',
     'package2',
