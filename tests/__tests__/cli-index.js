@@ -1,5 +1,5 @@
 const argv = require('mock-argv');
-import addDependenciesNonCli from '../../index';
+const addDependenciesNonCli = require('../../index');
 const {
   cliRunAndVerifyWithFailures,
   cliRunAndVerify,
@@ -44,18 +44,20 @@ describe('cli run()', () => {
   });
 
   test('run() with dependencies with override', async (done) => {
-    // const expectedJsonOverrides = {
-    //   dependencies: {
-    //     jest: '26.0.1',
-    //   },
-    // };
+    const expectedJsonOverrides = {
+      dependencies: {
+        jest: '26.0.1',
+      },
+    };
     generateRandomFilename().then((packageJson) =>
       argv([packageJson, 'jest@26.0.1'], () => {
         expect(process.argv).toContain(packageJson);
         expect(process.argv).toContain('jest@26.0.1');
         done();
         // todo there is a race condition occurring when we call "require" to when expect fires
-        // cliRunAndVerify(done, packageJson, expectedJsonOverrides).then();
+        // cliRunAndVerify(done, packageJson, expectedJsonOverrides).then(() => {
+        //   done();
+        // });
       })
     );
   });

@@ -1,4 +1,4 @@
-import addDependencies from '../../index';
+const addDependencies = require('../../index');
 const {
   runAndVerifyWithFailures,
   runAndVerify,

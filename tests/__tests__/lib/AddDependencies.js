@@ -1,5 +1,5 @@
 const argv = require('mock-argv');
-import addDependencies from '../../../index';
+const addDependencies = require('../../../index');
 const {
   generateRandomFilename,
   generateDefaultPackageJson,
