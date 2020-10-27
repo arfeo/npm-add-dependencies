@@ -12,7 +12,8 @@
   "homepage": "https://github.com/arfeo/npm-add-dependencies#readme",
   "scripts": {
     "test": "jest --config ./tests/jest.config.js",
-    "lint": "eslint --fix --ext js lib/**.js index.js cli-index.js"
+    "lint": "eslint --fix --ext js lib/**.js index.js cli-index.js",
+    "typescript": "tsc"
   },
   "keywords": [
     "dependencies",
@@ -36,6 +37,7 @@
     "jest": "^26.0.1",
     "eslint": "^7.3.0",
     "babel-eslint": "^10.1.0",
+    "typescript": "^4.0.5",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
     "prettier": "^2.0.5"

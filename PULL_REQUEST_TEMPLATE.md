@@ -5,3 +5,8 @@ Fixes #
   -
   -
   -
+
+## Checklist
+make sure you have run the following before requesting a review
+* npm run lint
+* npm run typescript
