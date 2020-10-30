@@ -1,10 +1,10 @@
 const path = require('path');
 const Files = require('../../lib/Files');
-const argv = require('mock-argv');
 const {
   TEST_JSON_DIR, //
 } = require('../jest.config');
 const md5 = require('blueimp-md5');
+const cmd = require('./cmd');
 
 // no params
 const defaultExpect = {
@@ -39,6 +39,7 @@ const generateDefaultPackageJson = () => {
 const cliRunAndVerify = async (
   done,
   packageJsonFilename,
+  args,
   expectedJsonOverrides
 ) => {
   generateDefaultPackageJson().then((defaultPackageJson) => {
@@ -46,19 +47,20 @@ const cliRunAndVerify = async (
       packageJsonFilename,
       JSON.stringify(defaultPackageJson)
     ).then(() => {
-      require('../../cli-index');
-      Files.readFromFile(packageJsonFilename).then((jsonResult) => {
-        const expectedJson = {
-          ...defaultPackageJson,
-          ...expectedJsonOverrides,
-        };
-        try {
-          expect(JSON.parse(jsonResult)).toEqual(expectedJson);
-          expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
-          done();
-        } catch (e) {
-          done(e);
-        }
+      cmd.execute('cli-index.js', args).then(() => {
+        Files.readFromFile(packageJsonFilename).then((jsonResult) => {
+          const expectedJson = {
+            ...defaultPackageJson,
+            ...expectedJsonOverrides,
+          };
+          try {
+            expect(JSON.parse(jsonResult)).toEqual(expectedJson);
+            // expect(console.log).toBeCalledWith('\x1b[32m%s\x1b[0m', 'Done.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
       });
     });
   });
@@ -96,31 +98,6 @@ const runAndVerify = async (
   );
 };
 
-const cliRunAndVerifyWithFailures = async (done, inputsString) => {
-  generateRandomFilename().then((packageJson) => {
-    argv([inputsString, packageJson], () => {
-      generateDefaultPackageJson().then((defaultPackageJson) => {
-        Files.writeToFile(packageJson, JSON.stringify(defaultPackageJson)).then(
-          () => {
-            require('../../cli-index');
-            try {
-              // add test to test log
-              expect(console.error).toBeCalledWith(
-                '\x1b[31m%s\x1b[0m',
-                'No dependencies passed. Stop.'
-              );
-              expect(process.exit).toHaveBeenCalledWith(1);
-              done();
-            } catch (e) {
-              done(e);
-            }
-          }
-        );
-      });
-    });
-  });
-};
-
 const runAndVerifyWithFailures = async (
   done,
   classForTesting,
@@ -145,7 +122,7 @@ const runAndVerifyWithFailures = async (
 };
 
 const generateRandomFilename = async () =>
-  path.resolve(TEST_JSON_DIR, md5(Math.random().toString()));
+  path.resolve(TEST_JSON_DIR, `${md5(Math.random().toString())}package.json`);
 
 module.exports = {
   defaultExpect,
@@ -153,6 +130,5 @@ module.exports = {
   runAndVerifyWithFailures,
   generateRandomFilename,
   generateDefaultPackageJson,
-  cliRunAndVerifyWithFailures,
   cliRunAndVerify,
 };
