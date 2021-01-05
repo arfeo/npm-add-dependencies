@@ -66,3 +66,7 @@ new npmAdd(dependencies, target, overwrite, packageFilePath)
     .run()
     .then(() => console.log('completed'));
 ```
+
+### Tests
+
+Simply run `npm i` and then `npm test`
