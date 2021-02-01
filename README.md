@@ -51,9 +51,17 @@ or via nodejs
 
 ```js
 const npmAdd = require('add-dependencies');
-//OR
+```
+OR
+
+```js
 // Note: to use import you must have `"type": "module"` in your projects package.json
 import npmAdd from 'add-dependencies';
+```
+
+THEN
+
+```js
 const dependencies = [
     'package1',
     'package2',
